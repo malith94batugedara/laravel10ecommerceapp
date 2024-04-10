@@ -3,8 +3,14 @@
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/admin',function(){
+Route::prefix('admin')->name('admin.')->group(function(){
 
-     return 'hello admin';
+          Route::middleware(['guest:admin'])->group(function(){
+              Route::view('/login','back.pages.admin.auth.login')->name('login');
+          });
+
+          Route::middleware(['auth:admin'])->group(function(){
+              Route::view('/home','back.pages.admin.home')->name('home');
+          });
 
 });
